@@ -1,10 +1,10 @@
 import React from 'react';
 import {useState} from 'react';
-import fs from 'fs';
+import axios from 'axios';
 
 const Question = () => {
 
-    const [questions, setquestions] = useState([]);
+    const [questions, setQuestions] = useState([]);
 
     const addQuestion = () => {
         const newQuestion = {
@@ -12,7 +12,7 @@ const Question = () => {
             question: '',
             answers: [],
         };
-        setquestions([...questions, newQuestion]);
+        setQuestions([...questions, newQuestion]);
     }
 
     const addAnswer = (questionId) => {
@@ -28,7 +28,7 @@ const Question = () => {
             }
             return question;
         });
-        setquestions(newQuestions);
+        setQuestions(newQuestions);
     }
 
     const deleteAnswer = (questionId, answerId) => {
@@ -38,16 +38,19 @@ const Question = () => {
             }
             return question;
         });
-        setquestions(newQuestions);
+        setQuestions(newQuestions);
     }
 
     const deleteQuestion = (questionId) => {
         const newQuestions = questions.filter((question) => question.id !== questionId);
-        setquestions(newQuestions);
+        setQuestions(newQuestions);
     }
 
+    let questionsData = [];
     const saveSurveyForm = () => {
-        let questionsData = questions;
+        console.log(questions)
+
+        questionsData = questions;
 
         questionsData.map((question, index) => {
 
@@ -56,10 +59,16 @@ const Question = () => {
                 answer.answer = document.getElementById("answer-" + String(index+1) +"-"+ String(index2+1)).value;
             })
         })
+    }
 
-        console.log(JSON.parse(JSON.stringify(questionsData)));
+    async function postQuestionData(e) {
+        e.preventDefault();
+        try {
+            await axios.post("http://localhost:8080/question_data", {questionsData});
+        } catch (err) {
+            console.error( "HATA MESAJI : " + err.message);
 
-
+        }
     }
 
     return (
@@ -116,6 +125,7 @@ const Question = () => {
                             {question.answers.length !== 0 ? question.answers?.map((answer) => (
                                 <div key={answer.id}>
                                     <div>
+                                        <input type="radio" className="mr-5"/>
                                         <input
                                             placeholder="Cevap girin..."
                                             className="shadow appearance-none p-1 border border-white-200 rounded w-96 text-l mb-1 mt-1"
@@ -142,7 +152,6 @@ const Question = () => {
                 ))}
             </div>
             <button
-
                 className="bg-purple-500 hover:bg-purple-700 transition mt-3 ease-in-out duration-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 id="btn-anket-kaydet"
                 onClick={() => {
@@ -151,6 +160,11 @@ const Question = () => {
             >
                 Anketi Kaydet
             </button>
+            <form onSubmit={postQuestionData}>
+                <button type="submit">
+                    Backend'e Gönder
+                </button>
+            </form>
         </div>
 
     );
