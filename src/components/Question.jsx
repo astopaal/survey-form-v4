@@ -72,7 +72,7 @@ const Question = () => {
     }
 
     return (
-        <div className="bg-blue-400 flex flex-col items-center p-5 h-screen">
+        <div className="bg-blue-400 flex flex-col items-center p-5 min-h-screen ">
             <h1 className="h1 font-bold text-lg text-gray-900">ANKET OLUŞTUR</h1>
             <button id="btn-question-ekle"
                     className=" bg-green-700 hover:bg-green-900 text-white font-bold w-36 py-2 rounded focus:outline-none transition duration-500 focus:shadow-outline"
