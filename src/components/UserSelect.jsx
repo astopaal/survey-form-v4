@@ -23,6 +23,12 @@ function UserSelect() {
             >
                 ADMİN EKLE
             </Link>
+            <Link
+                className={"bg-red-400 text-white p-2 rounded-lg mt-5"}
+                to={"/admin-login"}
+            >
+                ADMİN LOGIN
+            </Link>
 
         </div>
     );

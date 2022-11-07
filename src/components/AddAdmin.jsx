@@ -17,13 +17,12 @@ function AddAdmin() {
             email: email,
         }
 
-        axios.post("http://localhost:8080/add_admin", newAdmin).then((response) => {
-                console.log(response);
-            }
-        )
-
+        axios.post("http://localhost:8080/add_admin", newAdmin)
+            .then((response) => {
+                    console.log(response);
+                }
+            )
     }
-
 
     return (
         <div className={"container bg-blue-200 min-h-screen flex flex-col items-center min-w-full"}>
